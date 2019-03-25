@@ -9,12 +9,20 @@ module.exports = class Helm {
     }
 
     command(commandString, done){
-        this.executer.callByCommand(commandString, callbackHandler(done, false));
+        var isJsonOutputSupported = false
+        if (options.output && options.output == 'json') {
+            isJsonOutputSupported = true
+        }
+        this.executer.callByCommand(commandString, callbackHandler(done, isJsonOutputSupported), isJsonOutputSupported);
     }
     
     executeCommandByArguments(options, command, done) {
+        var isJsonOutputSupported = false
+        if (options.output && options.output == 'json') {
+            isJsonOutputSupported = true
+        }
         commandBuilder.addParentOptions(options, command);
-        this.executer.callByArguments(command, callbackHandler(done, false));
+        this.executer.callByArguments(command, callbackHandler(done, isJsonOutputSupported), isJsonOutputSupported);
     }
 
     install(options, done) {
@@ -63,7 +71,7 @@ module.exports = class Helm {
         if (options.reuseValues) {
             command.push('--reuse-values');
         }
-        
+
         this.executeCommandByArguments(options, command, done);        
     }
 
@@ -82,6 +90,16 @@ module.exports = class Helm {
     
     list(options, done){
         let command = ['list'];
+
+        if (options.namespace) {
+            command.push('--namespace');
+            command.push(options.namespace);
+        }
+
+        if(options.max){
+            command.push('--max');
+            command.push(options.max);
+        }
 
         this.executeCommandByArguments(options, command, done);               
     }
