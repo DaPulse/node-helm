@@ -100,6 +100,10 @@ module.exports = class Helm {
             command.push('--max');
             command.push(options.max);
         }
+        
+        if (options.releaseName) {
+          command.push(options.releaseName);
+        }
 
         this.executeCommandByArguments(options, command, done);               
     }
