@@ -5,7 +5,7 @@ The package is a wrapper that integrates with the helm.sh process.
 ## Installation
 
 ```
-npm install node-helm
+npm install --save DaPulse/node-helm#master
 ```
 ## Get Started
 
@@ -20,8 +20,9 @@ if (process.platform === "win32") {
 
 require Helm class
 ```
+let Promise = require("bluebird");
 const Helm = require("node-helm").Helm;
-var helm = Promise.promisifyAll(new Helm({helmCommand: helmBinary}));
+let helm = Promise.promisifyAll(new Helm({helmCommand: helmBinary}));
 ```
 
 ## API
@@ -118,22 +119,4 @@ https://docs.helm.sh/helm/#helm-status
         releaseName = 'service';
     }
     let status = await helm.statusAsync(options);  
-```
-
-## Release Notes
-```
-    19/02/19 - 
-        1. Add basic parent options support to all commands
-        2. Use esversion 6 typing
-
-    11/02/19 - 
-        1. Add 3 methods: test,status,rollback
-        2. Update README
-        3. Update LICENSE
-
-    10/02/19 - 
-        1.Added native object json response for some commands
-        2.Added get release method support
-        3.All methods are now using options variable
-
 ```
